@@ -51,19 +51,30 @@ export function activate(context: vscode.ExtensionContext) {
                 pull_number: parseInt(number),
             });
 
-            // Open each file in a new editor tab
+            // Open each file in the editor
+            const openedEditors: vscode.TextEditor[] = [];
             for (let file of files) {
                 if (file.status !== 'removed') {
                     // Construct the correct file path relative to the current directory
                     const filePath = path.resolve(file.filename);
 
                     try {
-                        const doc = await vscode.workspace.openTextDocument(filePath);
-                        await vscode.window.showTextDocument(doc);
+                        const document = await vscode.workspace.openTextDocument(filePath);
+                        const editor = await vscode.window.showTextDocument(document, {
+                            preserveFocus: true,
+                            preview: false,
+                        });
+                        openedEditors.push(editor);
                     } catch (error) {
                         vscode.window.showErrorMessage(`Failed to open file: ${file.filename}`);
                     }
                 }
+            }
+
+            // Focus the first opened editor
+            if (openedEditors.length > 0) {
+                const firstEditor = openedEditors[0];
+                vscode.window.showTextDocument(firstEditor.document, firstEditor.viewColumn);
             }
         } catch (error) {
             vscode.window.showErrorMessage('Failed to fetch PR details!');

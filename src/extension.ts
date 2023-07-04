@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { Octokit } from "@octokit/rest";
+import * as path from 'path';
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -53,8 +54,15 @@ export function activate(context: vscode.ExtensionContext) {
             // Open each file in a new editor tab
             for (let file of files) {
                 if (file.status !== 'removed') {
-                    let doc = await vscode.workspace.openTextDocument(file.filename);
-                    await vscode.window.showTextDocument(doc);
+                    // Construct the correct file path relative to the current directory
+                    const filePath = path.resolve(file.filename);
+
+                    try {
+                        const doc = await vscode.workspace.openTextDocument(filePath);
+                        await vscode.window.showTextDocument(doc);
+                    } catch (error) {
+                        vscode.window.showErrorMessage(`Failed to open file: ${file.filename}`);
+                    }
                 }
             }
         } catch (error) {

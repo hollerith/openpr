@@ -3,6 +3,11 @@
     "displayName": "openpr",
     "description": "Open all the files associated with a PR",
     "version": "0.0.1",
+    "publisher": "hollerith",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/hollerith/openpr.git"
+    },
     "engines": {
         "vscode": "^1.79.0"
     },
@@ -19,7 +24,17 @@
                 "command": "extension.openPRFiles",
                 "title": "Open all files in PR"
             }
-        ]
+        ],
+        "configuration": {
+            "title": "PR Files Opener",
+            "properties": {
+                "PRFilesOpener.githubToken": {
+                    "type": "string",
+                    "default": "",
+                    "description": "The GitHub token for PR Files Opener"
+                }
+            }
+        }
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",

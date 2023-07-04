@@ -2,7 +2,25 @@ import * as vscode from 'vscode';
 import { Octokit } from "@octokit/rest";
 
 export function activate(context: vscode.ExtensionContext) {
+
     let disposable = vscode.commands.registerCommand('extension.openPRFiles', async () => {
+        // Get the GitHub token from the settings
+        let config = vscode.workspace.getConfiguration('PRFilesOpener');
+        let githubToken = config.get('githubToken');
+
+        if (!githubToken) {
+            // Prompt the user to input the GitHub token
+            githubToken = await vscode.window.showInputBox({ prompt: 'Enter your GitHub token' });
+
+            if (!githubToken) {
+                vscode.window.showWarningMessage('GitHub token is required to use this extension.');
+                return;
+            }
+
+            // Save the GitHub token in the settings
+            await config.update('githubToken', githubToken, vscode.ConfigurationTarget.Global);
+        }
+
         // Get PR URL from the user
         let PRUrl = await vscode.window.showInputBox({ prompt: 'Enter PR URL' });
 
@@ -11,11 +29,17 @@ export function activate(context: vscode.ExtensionContext) {
             return;
         }
 
-        // Assume that the PR URL is in the form of https://github.com/user/repo/pull/number
-        let [_, user, repo, __, number] = PRUrl.split('/');
+        // Extract user, repo, and number from the PR URL
+        const prRegex = /^https:\/\/github\.com\/([^/]+)\/([^/]+)\/pull\/(\d+)$/;
+        const match = prRegex.exec(PRUrl);
+        if (!match) {
+            vscode.window.showErrorMessage('Invalid PR URL!');
+            return;
+        }
+        const [, user, repo, number] = match;
 
         const octokit = new Octokit({
-            auth: process.env.GITHUB_TOKEN
+            auth: githubToken as string,
         });
 
         // Fetch PR details using GitHub API

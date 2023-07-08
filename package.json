@@ -1,7 +1,7 @@
 {
     "name": "openpr",
     "displayName": "openpr",
-    "description": "Open all the files associated with a PR",
+    "description": "Open files helper",
     "version": "0.0.1",
     "publisher": "hollerith",
     "repository": {
@@ -14,6 +14,7 @@
     "categories": [
         "Other"
     ],
+    "icon": "icon.png",
     "activationEvents": [
         "onStartupFinished"
     ],
@@ -23,6 +24,10 @@
             {
                 "command": "extension.openPRFiles",
                 "title": "Open all files in PR"
+            },
+            {
+                "command": "extension.openStringLocation",
+                "title": "Open String Location"
             }
         ],
         "configuration": {

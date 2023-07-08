@@ -1,6 +1,9 @@
-# VSCode PR Files Opener Extension
+# VSCode PR Files Opener and Permalink helper Extension
 
-This is a Visual Studio Code extension that fetches the list of files in a given GitHub Pull Request (PR) and opens all of them in new editor tabs.
+This is a Visual Studio Code extension that adds two commands:
+
+1. `Open PR Files` fetches the list of files in a given GitHub Pull Request (PR) and opens all of them in new editor tabs.
+2. `Open String Location` opens the file of the permalink or file path in the clipboard
 
 ## Installation
 
@@ -10,11 +13,20 @@ This is a Visual Studio Code extension that fetches the list of files in a given
 
 ## Usage
 
+### Open PR Files
+
 1. Press `F1` to open the command palette.
 2. Type and select `Open PR Files`.
 3. Enter the URL of the PR when prompted.
 
 The extension will then fetch the list of files in the PR from the GitHub API and open each file in a new editor tab.
+
+### Open String Location
+
+1. Press `F1` to open the command palette.
+2. Type and select `Open String Location`.
+
+The extension will then open the file and position the cursor.
 
 ## Configuration
 

@@ -1,3 +1,4 @@
+// openpr/src/extension.ts
 import * as vscode from 'vscode';
 import { Octokit } from "@octokit/rest";
 import * as path from 'path';
@@ -29,6 +30,9 @@ export function activate(context: vscode.ExtensionContext) {
             vscode.window.showErrorMessage('PR URL is required!');
             return;
         }
+
+        // Close all open editors
+        vscode.commands.executeCommand('workbench.action.closeAllEditors');
 
         // Extract user, repo, and number from the PR URL
         const prRegex = /^https:\/\/github\.com\/([^/]+)\/([^/]+)\/pull\/(\d+)$/;

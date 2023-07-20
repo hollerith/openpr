@@ -16,15 +16,16 @@ This is a Visual Studio Code extension that adds two commands:
 ### Open PR Files
 
 1. Press `F1` to open the command palette.
-2. Type and select `Open PR Files`.
-3. Enter the URL of the PR when prompted.
+2. Type and select `OpenPR: all files in PR`.
+3. Accept or change the URL of the PR when prompted.
 
 The extension will then fetch the list of files in the PR from the GitHub API and open each file in a new editor tab.
 
 ### Open String Location
 
 1. Press `F1` to open the command palette.
-2. Type and select `Open String Location`.
+2. Type and select `OpenPR: permalink-like string`.
+3. Accept or change the URL of the permalink when prompted.
 
 The extension will then open the file and position the cursor.
 

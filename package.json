@@ -23,11 +23,11 @@
         "commands": [
             {
                 "command": "extension.openPRFiles",
-                "title": "Open all files in PR"
+                "title": "OpenPR: all files in PR"
             },
             {
                 "command": "extension.openStringLocation",
-                "title": "Open String Location"
+                "title": "OpenPR: permalink-like string"
             }
         ],
         "configuration": {

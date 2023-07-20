@@ -28,7 +28,7 @@ export function activate(context: vscode.ExtensionContext) {
 
         vscode.commands.executeCommand('workbench.action.closeAllEditors');
 
-        const prRegex = /^https:\/\/github\.com\/([^/]+)\/([^/]+)\/pull\/(\d+)$/;
+        const prRegex = /^https:\/\/github.com\/([^/]+)\/([^/]+)\/pull\/(\d+)(\/.*)?$/;
         const match = prRegex.exec(PRUrl);
         if (!match) {
             vscode.window.showErrorMessage('Invalid PR URL!');
@@ -76,12 +76,19 @@ export function activate(context: vscode.ExtensionContext) {
 
     let disposableOpenStringLocation = vscode.commands.registerCommand('extension.openStringLocation', async () => {
         const pasteBuffer = await vscode.env.clipboard.readText();
-        const position = parseStringLocation(pasteBuffer);
+        const userInput = await vscode.window.showInputBox({
+            value: pasteBuffer,
+            prompt: 'Modify the string you want to locate'
+        });
 
-        if (position) {
-            openFileAndPositionCursor(position);
-        } else {
-            vscode.window.showErrorMessage('Invalid string format in the paste buffer.');
+        if(userInput !== undefined) {
+            const position = parseStringLocation(userInput);
+
+            if (position) {
+                openFileAndPositionCursor(position);
+            } else {
+                vscode.window.showErrorMessage('Invalid string format.');
+            }
         }
     });
 
